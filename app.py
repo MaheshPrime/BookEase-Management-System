@@ -184,10 +184,59 @@ def register():
 
     return render_template('register.html', message=message)
 
+# Manage Transactions
+# Manage Books   
+@app.route("/transaction", methods =['GET', 'POST'])
+def transactions():
+    if 'loggedin' in session:
+        search_query = request.args.get('search', '')
+        cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+
+        if search_query:
+            search_query =   search_query 
+            # cursor.execute("SELECT * FROM book WHERE name LIKE %s", (search_query,))
+            # cursor.execute("SELECT book.bookid, book.picture, book.name, book.status, book.isbn, book.no_of_copy, book.updated_on, author.name as author_name, category.name AS category_name, rack.name As rack_name, publisher.name AS publisher_name FROM book LEFT JOIN author ON author.authorid = book.authorid LEFT JOIN category ON category.categoryid = book.categoryid LEFT JOIN rack ON rack.rackid = book.rackid LEFT JOIN publisher ON publisher.publisherid = book.publisherid WHERE book.name LIKE %s", (search_query,)")
+            cursor.execute("""
+    SELECT * FROM transactions
+    WHERE transaction_id = %s """, (search_query,))
+
+        else:
+            # cursor.execute("SELECT * FROM book")
+            cursor.execute("""SELECT * FROM transactions;""")
+                            # book.book_id,
+                            # book.Issued_Date,
+                            # book.Age,
+                            # book.Major,
+                            # book.Student_ID
+                            # FROM transactions book;""")
+        
+
+        # cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+        # cursor.execute("SELECT book.bookid, book.picture, book.name, book.status, book.isbn, book.no_of_copy, book.updated_on, author.name as author_name, category.name AS category_name, rack.name As rack_name, publisher.name AS publisher_name FROM book LEFT JOIN author ON author.authorid = book.authorid LEFT JOIN category ON category.categoryid = book.categoryid LEFT JOIN rack ON rack.rackid = book.rackid LEFT JOIN publisher ON publisher.publisherid = book.publisherid")
+        transaction_id = cursor.fetchall()    
+
+        cursor.execute("SELECT book_id FROM transactions")
+        book_id = cursor.fetchall()  
+
+        cursor.execute("SELECT Issued_Date FROM transactions")
+        Issued_Date = cursor.fetchall()
+
+        cursor.execute("SELECT Age FROM transactions")
+        Age = cursor.fetchall()
+
+        cursor.execute("SELECT Major FROM transactions")
+        Major = cursor.fetchall()
+
+        cursor.execute("SELECT Student_ID FROM transactions")
+        Student_ID = cursor.fetchall()
+        print(Student_ID)
+        return render_template("transaction.html", transaction_id = transaction_id, book_id = book_id, Issued_Date = Issued_Date, Age = Age, Major  = Major, Student_ID=Student_ID )
+    return redirect(url_for('login'))
+
+
 
 # Manage Books   
 @app.route("/books", methods =['GET', 'POST'])
-
 def books():
     if 'loggedin' in session:
         search_query = request.args.get('search', '')
