@@ -9,10 +9,10 @@ import sys
 app = Flask(__name__)
    
 app.secret_key = 'abcd2123445'  
-app.config['MYSQL_HOST'] = 'localhost'
-app.config['MYSQL_USER'] = 'root'
-app.config['MYSQL_PASSWORD'] = 'root'
-app.config['MYSQL_DB'] = 'library_db'
+app.config['MYSQL_HOST'] = 'tkck4yllxdrw0bhi.cbetxkdyhwsb.us-east-1.rds.amazonaws.com'
+app.config['MYSQL_USER'] = 'p14ndxfc5oj661va'
+app.config['MYSQL_PASSWORD'] = 'cabwsd12lofkd1jj'
+app.config['MYSQL_DB'] = 'gjyc5bwgl5n4j8h2'
   
 mysql = MySQL(app)
   
@@ -333,12 +333,12 @@ def save_book():
         books = cursor.fetchall() 
         if request.method == 'POST' and 'name' in request.form and 'author' in request.form and 'publisher' in request.form and 'category' in request.form and 'rack' in request.form :
             bookName = request.form['name'] 
-            isbn = request.form['isbn']  
-            no_of_copy = request.form['no_of_copy'] 
+            isbn = '0' 
+            no_of_copy = '0' 
             author = request.form['author']
             publisher = request.form['publisher']            
             category = request.form['category']
-            rack = request.form['rack']
+            rack = 7
             status = request.form['status']
             action = request.form['action']
             
@@ -347,7 +347,7 @@ def save_book():
                 cursor.execute('UPDATE book SET name= %s, status= %s, isbn= %s, no_of_copy= %s, categoryid= %s, authorid=%s, rackid= %s, publisherid= %s WHERE bookid = %s', (bookName, status, isbn, no_of_copy, category, author, rack, publisher, (bookId, ), ))
                 mysql.connection.commit()   
             else:
-                cursor.execute('INSERT INTO book (`name`, `status`, `isbn`, `no_of_copy`, `categoryid`, `authorid`, `rackid`, `publisherid`) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)', (bookName, status, isbn, no_of_copy, category
+                cursor.execute('INSERT INTO book (`name`,`picture`, `status`, `isbn`, `no_of_copy`, `categoryid`, `authorid`, `rackid`, `publisherid`) VALUES (%s, "",%s, %s, %s, %s, %s, %s, %s)', (bookName, status, isbn, no_of_copy, category
     , author, rack, publisher))
                 mysql.connection.commit()           
             return redirect(url_for('books'))        
