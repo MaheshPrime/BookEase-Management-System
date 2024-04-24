@@ -656,6 +656,6 @@ def delete_rack():
     return redirect(url_for('login'))
     
 if __name__ == "__main__":
-    app.run()
+    app.run(port=5001)
     os.execv(__file__, sys.argv)
 
