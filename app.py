@@ -654,8 +654,17 @@ def delete_rack():
         mysql.connection.commit()   
         return redirect(url_for('rack'))
     return redirect(url_for('login'))
+
+def find_free_port():
+    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+        s.bind(('', 0))
+        s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+        return s.getsockname()[1]
+    
+
     
 if __name__ == "__main__":
-    app.run(port=5001)
+    port = find_free_port()
+    app.run(port=port)
     os.execv(__file__, sys.argv)
 
