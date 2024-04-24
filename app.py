@@ -667,7 +667,8 @@ def find_free_port():
 if __name__ == "__main__":
     port = find_free_port()
     # app.run(port=port)
-    st.write(f"Streamlit is running at: {app.server.address}")
+    app1 = st._is_running_with_streamlit
+    st.write(f"Streamlit is running at: {app1.server.address}")
     ip = app.server.address
     os.system(f"gunicorn -b 0.0.0.0:{port} -w 4 app:app")
     # os.execv(__file__, sys.argv)
