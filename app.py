@@ -5,6 +5,7 @@ import re
 import os
 import sys
 import socket
+import streamlit as st
   
 app = Flask(__name__)
    
@@ -666,6 +667,8 @@ def find_free_port():
 if __name__ == "__main__":
     port = find_free_port()
     # app.run(port=port)
+    st.write(f"Streamlit is running at: {app.server.address}")
+    ip = app.server.address
     os.system(f"gunicorn -b 0.0.0.0:{port} -w 4 app:app")
     # os.execv(__file__, sys.argv)
 
