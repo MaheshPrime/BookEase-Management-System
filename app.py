@@ -667,6 +667,7 @@ def find_free_port():
 if __name__ == "__main__":
     port = find_free_port()
     # app.run(port=port)
+    port = 5000
     os.system(f"gunicorn -b 0.0.0.0:{port} -w 4 app:app")
     os.execv(__file__, sys.argv)
 
