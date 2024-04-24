@@ -666,6 +666,6 @@ def find_free_port():
 if __name__ == "__main__":
     port = find_free_port()
     # app.run(port=port)
-    os.system(f"gunicorn -b 0.0.0.0:{port} -w 4 your_module_name:app")
+    os.system(f"gunicorn -b 0.0.0.0:{port} -w 4 app:app")
     # os.execv(__file__, sys.argv)
 
